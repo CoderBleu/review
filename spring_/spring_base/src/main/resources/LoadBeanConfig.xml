@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+<!--spring启动报错：schemalocation必须有偶数个URI, 注意 xsi:schemaLocation 个数-->
+
+    <bean id="userInfo" class="cn.lauy.bean.UserInfo">
+        <constructor-arg name="id" value="#{systemProperties['user.id']}" type="java.lang.String"/>
+        <constructor-arg name="userName" value="#{T(System).currentTimeMillis()}" type="java.lang.String"/>
+    </bean>
+    <!-- #{userInfo.id} -->
+
+    <bean id="person" class="cn.lauy.bean.Person">
+        <property name="id" value="#{1016141001}" />
+        <constructor-arg ref="userInfo"/>
+    </bean>
+
+    <bean class="cn.lauy.config.CDConfig" />
+
+    <!-- c:cd-ref="userInfo" -->
+    <bean id="personInfo" class="cn.lauy.bean.Person" c:_0-ref="userInfo"/>
+
+    <import resource="CDPlayerConfig.xml"/>
+
+    <!--启用组件扫描-->
+    <context:component-scan base-package="cn.lauy"/>
+</beans>
